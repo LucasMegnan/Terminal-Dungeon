@@ -1,8 +1,8 @@
 #ifndef FIGHT_H
 #define FIGHT_H
 
-#include "player.h"
-#include "enemy.h"
+#include "../player/player.h"
+#include "../monsters/enemy.h"
 
 void combat(Player& player, Enemy* enemy);
 

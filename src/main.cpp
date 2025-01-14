@@ -1,6 +1,6 @@
 #include <iostream>
 #include <limits>
-#include "game.h"
+#include "menu/game.h"
 
 int main()
 {

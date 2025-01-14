@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "dungeon.h"
+#include "../map/dungeon.h"
 
 class Game {
 public:

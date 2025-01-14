@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <string>
-#include "player.h"
-#include "enemy.h"
+#include "../player/player.h"
+#include "../monsters/enemy.h"
 
 class Dungeon {
 public:

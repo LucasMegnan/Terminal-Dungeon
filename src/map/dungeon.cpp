@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include "dungeon.h"
-#include "fight.h"
+#include "../fight/fight.h"
 
 Dungeon::Dungeon(int width, int height) : width(width), height(height), player(width / 2, height / 2), loopCount(0) {
     // Initialize the map with empty spaces
