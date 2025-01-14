@@ -19,16 +19,16 @@ Dungeon::Dungeon(int width, int height) : width(width), height(height), player(w
     }
 
     // Initialize enemies
-    enemies.push_back(new Ghost(1, 1));
-    enemies.push_back(new Vampire(3, 3));
-    enemies.push_back(new Skeleton(5, 5));
-    enemies.push_back(new Ghost(10, 10));
-    enemies.push_back(new Vampire(15, 15));
-    enemies.push_back(new Skeleton(20, 20));
-    enemies.push_back(new Ghost(5, 25));
-    enemies.push_back(new Vampire(10, 30));
-    enemies.push_back(new Skeleton(15, 35));
-    enemies.push_back(new Boss(24, 12)); // Ensure the boss is not on the same position as the player
+    enemies.push_back(new Ghost(1, 1, 5, 2));
+    enemies.push_back(new Vampire(3, 3, 10, 3));
+    enemies.push_back(new Skeleton(5, 5, 7, 2));
+    enemies.push_back(new Ghost(10, 10, 5, 2));
+    enemies.push_back(new Vampire(15, 15, 10, 3));
+    enemies.push_back(new Skeleton(20, 20, 7, 2));
+    enemies.push_back(new Ghost(5, 25, 5, 2));
+    enemies.push_back(new Vampire(10, 30, 10, 3));
+    enemies.push_back(new Skeleton(15, 35, 7, 2));
+    enemies.push_back(new Boss(24, 12, 20, 5)); // Ensure the boss is not on the same position as the player
 }
 
 void Dungeon::display() const {
@@ -78,16 +78,20 @@ void Dungeon::movePlayer(char direction) {
             if (enemy->getHealth() <= 0) {
                 // Remove the defeated enemy from the list
                 enemies.erase(std::remove(enemies.begin(), enemies.end(), enemy), enemies.end());
-                delete enemy; // Free the memory
                 if (enemy->getType() == "Boss") {
+                    delete enemy; // Free the memory
                     rebuildDungeon(); // Rebuild the dungeon if the Boss is defeated
+                } else {
+                    delete enemy; // Free the memory
                 }
             }
         } else {
             player.move(direction);
         }
     } else {
+        std::cout << "=============================" << std::endl;
         std::cout << "You can't move through walls!" << std::endl;
+        std::cout << "=============================" << std::endl;
     }
 }
 
@@ -133,19 +137,22 @@ void Dungeon::rebuildDungeon() {
 
     // Initialize new enemies with increased strength
     int numEnemies = 10 + loopCount * 2; // Increase the number of enemies with each loop
+    int baseHealth = 5 + loopCount * 2; // Increase the base health of enemies with each loop
+    int baseDamage = 2 + loopCount; // Increase the base damage of enemies with each loop
+
     for (int i = 0; i < numEnemies; ++i) {
-        int x = rand() % (width - 2) + 1;
-        int y = rand() % (height - 2) + 1;
-        int health = 5 + loopCount * 2; // Increase the health of enemies with each loop
-        if (x == player.getX() && y == player.getY()) {
-            continue; // Ensure enemies are not placed on the player's position
-        }
+        int x, y;
+        do {
+            x = rand() % (width - 2) + 1;
+            y = rand() % (height - 2) + 1;
+        } while (x == player.getX() && y == player.getY()); // Ensure enemies are not placed on the player's position
+
         if (i % 3 == 0) {
-            enemies.push_back(new Ghost(x, y));
+            enemies.push_back(new Ghost(x, y, baseHealth, baseDamage));
         } else if (i % 3 == 1) {
-            enemies.push_back(new Vampire(x, y));
+            enemies.push_back(new Vampire(x, y, baseHealth, baseDamage));
         } else {
-            enemies.push_back(new Skeleton(x, y));
+            enemies.push_back(new Skeleton(x, y, baseHealth, baseDamage));
         }
     }
 
@@ -155,5 +162,5 @@ void Dungeon::rebuildDungeon() {
         bossX = rand() % (width - 2) + 1;
         bossY = rand() % (height - 2) + 1;
     } while (bossX == player.getX() && bossY == player.getY());
-    enemies.push_back(new Boss(bossX, bossY));
+    enemies.push_back(new Boss(bossX, bossY, baseHealth * 2, baseDamage * 2)); // Boss has double the health and damage
 }

@@ -5,12 +5,13 @@
 
 class Enemy {
 public:
-    Enemy(int x, int y, int health, const std::string& type);
+    Enemy(int x, int y, int health, int damage, const std::string& type);
     virtual ~Enemy() = default;
 
     int getX() const;
     int getY() const;
     int getHealth() const;
+    int getDamage() const;
     std::string getType() const;
     virtual std::string getAsciiArt() const = 0;
 
@@ -21,30 +22,31 @@ protected:
     int x;
     int y;
     int health;
+    int damage;
     std::string type;
 };
 
 class Ghost : public Enemy {
 public:
-    Ghost(int x, int y);
+    Ghost(int x, int y, int health, int damage);
     std::string getAsciiArt() const override;
 };
 
 class Vampire : public Enemy {
 public:
-    Vampire(int x, int y);
+    Vampire(int x, int y, int health, int damage);
     std::string getAsciiArt() const override;
 };
 
 class Skeleton : public Enemy {
 public:
-    Skeleton(int x, int y);
+    Skeleton(int x, int y, int health, int damage);
     std::string getAsciiArt() const override;
 };
 
 class Boss : public Enemy {
 public:
-    Boss(int x, int y);
+    Boss(int x, int y, int health, int damage);
     std::string getAsciiArt() const override;
 };
 

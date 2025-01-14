@@ -6,7 +6,9 @@ void combat(Player& player, Enemy* enemy) {
     std::cout << enemy->getAsciiArt() << std::endl;
 
     while (player.getHealth() > 0 && enemy->getHealth() > 0) {
+        std::cout << "=================================" << std::endl;
         std::cout << "Choose your action:\n1. Attack\n2. Special Attack\n3. Block\n4. Heal\n";
+        std::cout << "=================================" << std::endl;
         int choice;
         std::cin >> choice;
 

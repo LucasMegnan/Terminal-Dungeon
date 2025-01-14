@@ -1,7 +1,7 @@
 #include "enemy.h"
 
-Enemy::Enemy(int x, int y, int health, const std::string& type)
-    : x(x), y(y), health(health), type(type) {}
+Enemy::Enemy(int x, int y, int health, int damage, const std::string& type)
+    : x(x), y(y), health(health), damage(damage), type(type) {}
 
 int Enemy::getX() const {
     return x;
@@ -13,6 +13,10 @@ int Enemy::getY() const {
 
 int Enemy::getHealth() const {
     return health;
+}
+
+int Enemy::getDamage() const {
+    return damage;
 }
 
 std::string Enemy::getType() const {
@@ -35,7 +39,7 @@ void Enemy::takeDamage(int damage) {
     }
 }
 
-Ghost::Ghost(int x, int y) : Enemy(x, y, 5, "Ghost") {}
+Ghost::Ghost(int x, int y, int health, int damage) : Enemy(x, y, health, damage, "Ghost") {}
 
 std::string Ghost::getAsciiArt() const {
     return R"(
@@ -84,7 +88,7 @@ std::string Ghost::getAsciiArt() const {
     )";
 }
 
-Vampire::Vampire(int x, int y) : Enemy(x, y, 10, "Vampire") {}
+Vampire::Vampire(int x, int y, int health, int damage) : Enemy(x, y, health, damage, "Vampire") {}
 
 std::string Vampire::getAsciiArt() const {
     return R"(
@@ -129,7 +133,7 @@ std::string Vampire::getAsciiArt() const {
     )";
 }
 
-Skeleton::Skeleton(int x, int y) : Enemy(x, y, 7, "Skeleton") {}
+Skeleton::Skeleton(int x, int y, int health, int damage) : Enemy(x, y, health, damage, "Skeleton") {}
 
 std::string Skeleton::getAsciiArt() const {
     return R"(
@@ -168,7 +172,7 @@ std::string Skeleton::getAsciiArt() const {
     )";
 }
 
-Boss::Boss(int x, int y) : Enemy(x, y, 20, "Boss") {}
+Boss::Boss(int x, int y, int health, int damage) : Enemy(x, y, health, damage, "Boss") {}
 
 std::string Boss::getAsciiArt() const {
     return R"(

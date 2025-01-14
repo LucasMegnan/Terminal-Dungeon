@@ -32,6 +32,11 @@ void Game::start() {
     running = true;
     std::cout << "You entered the dungeon!" << std::endl;
     dungeon.display();
+
+    // Main game loop
+    while (running) {
+        update();
+    }
 }
 
 bool Game::isRunning() const {
