@@ -57,6 +57,7 @@ void Dungeon::display() const {
 void Dungeon::movePlayer(char direction) {
     int newX = player.getX();
     int newY = player.getY();
+    std::string errorMessage;
 
     switch (direction) {
         case 'w': --newY; break;
@@ -64,10 +65,8 @@ void Dungeon::movePlayer(char direction) {
         case 'a': --newX; break;
         case 'd': ++newX; break;
         default:
-            std::cout << "=================================" << std::endl;
-            std::cout << "Invalid choice. Please try again." << std::endl;
-            std::cout << "=================================" << std::endl;
-            return;
+            errorMessage = "Invalid choice. Please try again.";
+            break;
     }
 
     if (!isWall(newX, newY)) {
@@ -89,9 +88,16 @@ void Dungeon::movePlayer(char direction) {
             player.move(direction);
         }
     } else {
+        errorMessage = "You can't move through walls!";
+    }
+
+    // Display the dungeon
+    display();
+
+    // Display the error message if any
+    if (!errorMessage.empty()) {
         std::cout << "=============================" << std::endl;
-        std::cout << "You can't move through walls!" << std::endl;
-        std::cout << "=============================" << std::endl;
+        std::cout << errorMessage << std::endl;
     }
 }
 
