@@ -90,7 +90,7 @@ void Game::update() {
         return;
     }
 
-    dungeon.movePlayer(input);
+    dungeon.display();
 
     if (player.getHealth() <= 0) {
         end();
