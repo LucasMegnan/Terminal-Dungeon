@@ -5,6 +5,8 @@
 #include <string>
 #include "../player/player.h"
 #include "../monsters/enemy.h"
+#include "../inventory-management/inventory.h"
+
 
 class Dungeon {
 public:

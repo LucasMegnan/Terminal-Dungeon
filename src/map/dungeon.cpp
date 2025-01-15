@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cstdlib>
 #include <random>
+#include <sstream>
 
 #include "dungeon.h"
 #include "../fight/fight.h"
@@ -40,6 +41,17 @@ Dungeon::Dungeon(int width, int height) : width(width), height(height), player(w
 }
 
 void Dungeon::display() const {
+    // Prepare the inventory display
+    std::stringstream inventoryStream;
+    Inventory inventory;
+    inventory.display(inventoryStream);
+    std::vector<std::string> inventoryLines;
+    std::string line;
+    while (std::getline(inventoryStream, line)) {
+        inventoryLines.push_back(line);
+    }
+
+    // Display the dungeon and inventory side by side
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
             bool isEnemy = false;
@@ -58,7 +70,15 @@ void Dungeon::display() const {
                 }
             }
         }
+        // Print the corresponding inventory line if it exists
+        if (y < inventoryLines.size()) {
+            std::cout << "  " << inventoryLines[y];
+        }
         std::cout << std::endl;
+    }
+    // Print any remaining inventory lines
+    for (int i = height; i < inventoryLines.size(); ++i) {
+        std::cout << std::string(width, ' ') << "  " << inventoryLines[i] << std::endl;
     }
 }
 

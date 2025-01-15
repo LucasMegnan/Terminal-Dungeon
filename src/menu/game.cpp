@@ -2,9 +2,9 @@
 #include <termios.h>
 #include <unistd.h>
 #include "game.h"
+#include "../utils/utils.h"
 
 void Game::screenMenu() const {
-
     // Clear the screen and move the cursor to the top-left corner
     std::cout << "\033[2J\033[H";
 
@@ -49,30 +49,10 @@ bool Game::isRunning() const {
     return running;
 }
 
-char getch() {
-    char buf = 0;
-    struct termios old = {0};
-    if (tcgetattr(0, &old) < 0)
-        perror("tcsetattr()");
-    old.c_lflag &= ~ICANON;
-    old.c_lflag &= ~ECHO;
-    old.c_cc[VMIN] = 1;
-    old.c_cc[VTIME] = 0;
-    if (tcsetattr(0, TCSANOW, &old) < 0)
-        perror("tcsetattr ICANON");
-    if (read(0, &buf, 1) < 0)
-        perror("read()");
-    old.c_lflag |= ICANON;
-    old.c_lflag |= ECHO;
-    if (tcsetattr(0, TCSADRAIN, &old) < 0)
-        perror("tcsetattr ~ICANON");
-    return buf;
-}
-
 void Game::update() {
     char input;
     // Clear the screen and move the cursor to the top-left corner
-    std::cout << "\033[2J\033[H";
+    system("clear");
 
     // Display the dungeon
     dungeon.movePlayer(input);

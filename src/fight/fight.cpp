@@ -1,7 +1,13 @@
 #include <iostream>
+#include <limits>
+#include <termios.h>
+#include <unistd.h>
 #include "fight.h"
+#include "../utils/utils.h"
 
 void combat(Player& player, Enemy* enemy) {
+    char choice;
+    std::string messageBuffer;
     while (player.getHealth() > 0 && enemy->getHealth() > 0) {
         // Clear the screen and move the cursor to the top-left corner
         std::cout << "\033[2J\033[H";
@@ -13,55 +19,47 @@ void combat(Player& player, Enemy* enemy) {
         std::cout << "=================================" << std::endl;
         std::cout << "Choose your action:\n1. Attack\n2. Special Attack\n3. Block\n4. Heal\n";
         std::cout << "=================================" << std::endl;
-        int choice;
-        std::cin >> choice;
 
-        // Check if the input is valid
-        if (std::cin.fail() || choice < 1 || choice > 4) {
-            std::cin.clear(); // Clear the error flag
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore the rest of the input
-            std::cout << "=================================" << std::endl;
-            std::cout << "Invalid choice. Please try again." << std::endl;
-            std::cout << "=================================" << std::endl;
-            continue;
-        }
+        // Display combat messages
+        std::cout << messageBuffer << std::endl;
 
+        choice = getch(); // Capture the key press directly
+
+        // Display combat text
         switch (choice) {
-            case 1:
+            case '1':
                 enemy->takeDamage(player.getDamage()); // Use player's damage value
-                std::cout << "You hit the " << enemy->getType() << " for " << player.getDamage() << " damage. Enemy have " << enemy->getHealth() << "HP" << std::endl;
+                messageBuffer = "You hit the " + enemy->getType() + " for " + std::to_string(player.getDamage()) + " damage. Enemy has " + std::to_string(enemy->getHealth()) + " HP\n";
                 break;
-            case 2:
+            case '2':
                 enemy->takeDamage(player.getDamage() * 2); // Example special attack damage value
-                std::cout << "You hit the " << enemy->getType() << " with a special attack for " << player.getDamage() * 2 << " damage. Enemy health: " << enemy->getHealth() << std::endl;
+                messageBuffer = "You hit the " + enemy->getType() + " with a special attack for " + std::to_string(player.getDamage() * 2) + " damage. Enemy health: " + std::to_string(enemy->getHealth()) + "\n";
                 break;
-            case 3:
-                std::cout << "You block the next attack." << std::endl;
+            case '3':
+                messageBuffer = "You block the next attack.\n";
                 break;
-            case 4:
+            case '4':
                 player.takeDamage(-3); // Example heal value (negative damage)
-                std::cout << "You heal yourself for 3 health. Your health: " << player.getHealth() << std::endl;
+                messageBuffer = "You heal yourself for 3 health. Your health: " + std::to_string(player.getHealth()) + "\n";
                 break;
+            default:
+                messageBuffer = "Invalid choice. Please try again.\n";
+                continue; // Skip the enemy's turn if the player makes an invalid choice
         }
 
         if (enemy->getHealth() <= 0) {
-            std::cout << "You defeated the " << enemy->getType() << "!" << std::endl;
+            messageBuffer += "You defeated the " + enemy->getType() + "!\n";
             player.gainExperience(10); // Example experience value
-            std::cout << "You gained 10 experience points. Your level: " << player.getLevel() << ", Your health: " << player.getHealth() << ", Your damage: " << player.getDamage() << std::endl;
+            messageBuffer += "You gained 10 experience points. Your level: " + std::to_string(player.getLevel()) + ", Your health: " + std::to_string(player.getHealth()) + ", Your damage: " + std::to_string(player.getDamage()) + "\n";
             break;
         }
 
-        // Enemy attacks
-        if (choice != 3) { // If player didn't block
-            player.takeDamage(1); // Example damage value
-            std::cout << "The " << enemy->getType() << " hits you for 1 damage. Your health: " << player.getHealth() << std::endl;
-        } else {
-            std::cout << "You blocked the attack!" << std::endl;
-        }
+        // Enemy's turn to attack
+        player.takeDamage(enemy->getDamage());
+        messageBuffer += "The " + enemy->getType() + " hits you for " + std::to_string(enemy->getDamage()) + " damage. Your health: " + std::to_string(player.getHealth()) + "\n";
 
         if (player.getHealth() <= 0) {
-            std::cout << "You were defeated by the " << enemy->getType() << "!" << std::endl;
-            break;
+            messageBuffer += "You were defeated by the " + enemy->getType() + "!\n";
         }
     }
 }
