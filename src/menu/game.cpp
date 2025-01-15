@@ -4,6 +4,10 @@
 #include "game.h"
 
 void Game::screenMenu() const {
+
+    // Clear the screen and move the cursor to the top-left corner
+    std::cout << "\033[2J\033[H";
+
     const std::string menuArt =
         " .-') _     ('-.  _  .-')  _   .-')                 .-') _    ('-.                     _ .-') _                    .-') _               ('-.                    .-') _  \n"
         "(  OO) )  _(  OO)( \\( -O )( '.( OO )_              ( OO ) )  ( OO ).-.                ( (  OO) )                  ( OO ) )            _(  OO)                  ( OO ) ) \n"

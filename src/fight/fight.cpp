@@ -2,10 +2,14 @@
 #include "fight.h"
 
 void combat(Player& player, Enemy* enemy) {
-    std::cout << "Combat started with " << enemy->getType() << "!" << std::endl;
-    std::cout << enemy->getAsciiArt() << std::endl;
-
     while (player.getHealth() > 0 && enemy->getHealth() > 0) {
+        // Clear the screen and move the cursor to the top-left corner
+        std::cout << "\033[2J\033[H";
+
+        // Display ASCII art
+        std::cout << enemy->getAsciiArt() << std::endl;
+
+        // Display action choices
         std::cout << "=================================" << std::endl;
         std::cout << "Choose your action:\n1. Attack\n2. Special Attack\n3. Block\n4. Heal\n";
         std::cout << "=================================" << std::endl;
