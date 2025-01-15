@@ -17,6 +17,7 @@ public:
 
     void move(char direction);
     void takeDamage(int damage);
+    void increaseStrength(int healthIncrement, int damageIncrement); 
 
 protected:
     int x;
