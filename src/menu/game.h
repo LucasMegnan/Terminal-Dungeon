@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "../map/dungeon.h"
+#include "../inventory-management/inventory.h"
 
 class Game {
 public:
@@ -15,6 +16,7 @@ public:
 private:
     bool running;
     Dungeon dungeon;
+    Inventory inventory; // Add inventory as a member of the Game class
 };
 
 #endif // GAME_H

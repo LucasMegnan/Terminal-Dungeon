@@ -3,25 +3,24 @@
 
 #include <vector>
 #include <string>
+#include <sstream>
 #include "../player/player.h"
 #include "../monsters/enemy.h"
-#include "../inventory-management/inventory.h"
-
 
 class Dungeon {
 public:
     Dungeon(int width, int height);
-    void display() const;
+    void display(std::ostream& os) const;
     void movePlayer(char direction);
     Player& getPlayer();
     bool isWall(int x, int y) const;
     Enemy* getEnemyAt(int x, int y) const;
-    void rebuildDungeon(); // Add a method to rebuild the dungeon
+    void rebuildDungeon();
 
 private:
     int width;
     int height;
-    int loopCount; // Add a counter for the number of loops
+    int loopCount; // loopCount to track the number of loops
     std::vector<std::string> map;
     Player player;
     std::vector<Enemy*> enemies;

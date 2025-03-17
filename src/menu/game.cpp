@@ -36,8 +36,21 @@ Game::Game() : running(false), dungeon(50, 25) {}
 
 void Game::start() {
     running = true;
+
+    // Add items to the inventory
+    Item sword("Sword", "Weapon", 10);
+    Item shield("Shield", "Armor", 5);
+    Item potion("Health Potion", "Consumable", 3);
+
+    inventory.addBackpackItem(sword);
+    inventory.addBackpackItem(shield);
+    inventory.addBackpackItem(potion);
+
+    // Equip items
+    inventory.setEquipment("handR", sword);
+    inventory.setEquipment("handL", shield);
+
     std::cout << "You entered the dungeon!" << std::endl;
-    dungeon.display();
 
     // Main game loop
     while (running) {
@@ -52,10 +65,32 @@ bool Game::isRunning() const {
 void Game::update() {
     char input;
     // Clear the screen and move the cursor to the top-left corner
-    system("clear");
+    std::cout << "\033[2J\033[H";
 
-    // Display the dungeon
-    dungeon.movePlayer(input);
+    // Capture dungeon display output
+    std::ostringstream dungeonStream;
+    dungeon.display(dungeonStream);
+    std::string dungeonOutput = dungeonStream.str();
+
+    // Capture inventory display output
+    std::ostringstream inventoryStream;
+    inventory.display(inventoryStream);
+    std::string inventoryOutput = inventoryStream.str();
+
+    // Display dungeon and inventory side by side
+    std::istringstream dungeonLines(dungeonOutput);
+    std::istringstream inventoryLines(inventoryOutput);
+    std::string dungeonLine, inventoryLine;
+
+    while (std::getline(dungeonLines, dungeonLine) || std::getline(inventoryLines, inventoryLine)) {
+        if (!dungeonLine.empty()) {
+            std::cout << dungeonLine;
+        }
+        if (!inventoryLine.empty()) {
+            std::cout << "    " << inventoryLine;
+        }
+        std::cout << std::endl;
+    }
 
     // Display player health, level, experience, and experience needed for next level
     const Player& player = dungeon.getPlayer();
@@ -74,7 +109,7 @@ void Game::update() {
         return;
     }
 
-    dungeon.display();
+    dungeon.movePlayer(input);
 
     if (player.getHealth() <= 0) {
         end();

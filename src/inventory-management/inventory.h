@@ -5,53 +5,54 @@
 #include <string>
 #include <algorithm>
 #include <sstream>
+#include "item.h"
 
 // Backpack class
 class Backpack {
 public:
     Backpack();
-    void addItem(const std::string& item);
-    void removeItem(const std::string& item);
+    void addItem(const Item& item);
+    void removeItem(const std::string& itemName);
     void display(std::ostream& os) const;
 
 private:
-    std::vector<std::string> items;
+    std::vector<Item> items;
 };
 
 // Equipment class
 class Equipment {
 public:
     Equipment();
-    void setHead(const std::string& item);
-    void setNeck(const std::string& item);
-    void setHandL(const std::string& item);
-    void setHandR(const std::string& item);
-    void setBody(const std::string& item);
-    void setArms(const std::string& item);
-    void setRing1(const std::string& item);
-    void setRing2(const std::string& item);
-    void setFeet(const std::string& item);
+    void setHead(const Item& item);
+    void setNeck(const Item& item);
+    void setHandL(const Item& item);
+    void setHandR(const Item& item);
+    void setBody(const Item& item);
+    void setArms(const Item& item);
+    void setRing1(const Item& item);
+    void setRing2(const Item& item);
+    void setFeet(const Item& item);
     void display(std::ostream& os) const;
 
 private:
-    std::string head;
-    std::string neck;
-    std::string handL;
-    std::string handR;
-    std::string body;
-    std::string arms;
-    std::string ring1;
-    std::string ring2;
-    std::string feet;
+    Item head;
+    Item neck;
+    Item handL;
+    Item handR;
+    Item body;
+    Item arms;
+    Item ring1;
+    Item ring2;
+    Item feet;
 };
 
 // Inventory class
 class Inventory {
 public:
     Inventory();
-    void addBackpackItem(const std::string& item);
-    void removeBackpackItem(const std::string& item);
-    void setEquipment(const std::string& slot, const std::string& item);
+    void addBackpackItem(const Item& item);
+    void removeBackpackItem(const std::string& itemName);
+    void setEquipment(const std::string& slot, const Item& item);
     void display(std::ostream& os) const;
 
 private:

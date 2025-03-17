@@ -64,3 +64,8 @@ void Player::levelUp() {
     experience = 0; // Reset experience after leveling up
     experienceThreshold = static_cast<int>(experienceThreshold * 1.15); // Increase the experience threshold by 15%
 }
+
+void Player::setPosition(int x, int y) {
+    this->x = x;
+    this->y = y;
+}

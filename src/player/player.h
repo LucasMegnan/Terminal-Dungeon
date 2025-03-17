@@ -16,6 +16,7 @@ public:
     void takeDamage(int damage);
     void gainExperience(int amount);
     void levelUp();
+    void setPosition(int x, int y); // Add the setPosition method
 
 private:
     int x;

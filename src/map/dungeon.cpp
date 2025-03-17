@@ -6,6 +6,7 @@
 
 #include "dungeon.h"
 #include "../fight/fight.h"
+#include "../inventory-management/inventory.h"
 
 Dungeon::Dungeon(int width, int height) : width(width), height(height), player(width / 2, height / 2), loopCount(0) {
     // Initialize the map with empty spaces
@@ -40,7 +41,7 @@ Dungeon::Dungeon(int width, int height) : width(width), height(height), player(w
     enemies.push_back(new Boss(disX(gen), disY(gen), 20, 5)); // Ensure the boss is not on the same position as the player
 }
 
-void Dungeon::display() const {
+void Dungeon::display(std::ostream& os) const {
     // Prepare the inventory display
     std::stringstream inventoryStream;
     Inventory inventory;
@@ -120,7 +121,7 @@ void Dungeon::movePlayer(char direction) {
     }
 
     // Display the dungeon
-    display();
+    display(std::cout);
 
     // Display the error message if any
     if (!errorMessage.empty()) {
